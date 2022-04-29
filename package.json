@@ -9,10 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-leaflet/universal-leaflet": "^1.0.1",
+    "esri-leaflet-geocoder": "^3.1.3",
+    "leaflet": "^1.8.0",
+    "leaflet-defaulticon-compatibility": "^0.1.1",
+    "leaflet-geosearch": "^3.6.0",
     "mongodb": "^4.5.0",
     "next": "12.1.5",
     "react": "18.0.0",
     "react-dom": "18.0.0",
+    "react-leaflet": "^4.0.0",
     "react-multi-ref": "^1.0.0"
   },
   "devDependencies": {

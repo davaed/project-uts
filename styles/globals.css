@@ -18,6 +18,10 @@ a {
   box-sizing: border-box;
 }
 
+.leaflet-marker-icon:first-of-type {
+  filter: hue-rotate(90deg);
+}
+
 .active {
   border-color: #00a770 !important;
   color: #00a770 !important;
