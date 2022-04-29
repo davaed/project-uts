@@ -4,7 +4,7 @@ import MultiRef from 'react-multi-ref'
 import { MongoClient } from 'mongodb'
 import { Fragment, useState } from 'react'
 import Layout from '../../components/Layout'
-import Modal from '../../components/Modal'
+import ModalMenus from '../../components/ModalMenus'
 
 export default function RestaurantDetail(props) {
   const _items = new MultiRef()
@@ -31,10 +31,6 @@ export default function RestaurantDetail(props) {
     })
   }
 
-  function confirmChoice() {
-    setConfirmed(true)
-  }
-
   return (
     <Fragment>
       <Head>
@@ -53,7 +49,7 @@ export default function RestaurantDetail(props) {
             <div className='flex justify-end'>
               <button
                 className='cursor-pointer rounded-md border border-[#eaeaea] hover:border-[#00a770] hover:text-[#ffffff] hover:bg-[#00a770] transition ease-in-out duration-200 px-6 py-2.5'
-                onClick={confirmChoice}
+                onClick={() => setConfirmed(true)}
               >
                 Confirm choice
               </button>
@@ -61,7 +57,7 @@ export default function RestaurantDetail(props) {
           )}
 
           {confirmed && (
-            <Modal selectedMenus={selected} setConfirmed={setConfirmed} />
+            <ModalMenus selectedMenus={selected} setConfirmed={setConfirmed} />
           )}
 
           <div className='grid grid-cols-4 gap-6 my-12'>
@@ -91,7 +87,7 @@ export default function RestaurantDetail(props) {
 
 export async function getStaticPaths() {
   const client = await MongoClient.connect(
-    'mongodb+srv://david:Z6HJLGe4JV1WaKQa@cluster0.ec2ky.mongodb.net/go-clone?retryWrites=true&w=majority'
+    `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@cluster0.ec2ky.mongodb.net/${process.env.MONGODB_DATABASE}?retryWrites=true&w=majority`
   )
   const db = client.db()
   const collections = db.collection('go-food')
@@ -112,7 +108,7 @@ export async function getStaticProps(context) {
   const param = context.params.restaurant
 
   const client = await MongoClient.connect(
-    'mongodb+srv://david:Z6HJLGe4JV1WaKQa@cluster0.ec2ky.mongodb.net/go-clone?retryWrites=true&w=majority'
+    `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@cluster0.ec2ky.mongodb.net/${process.env.MONGODB_DATABASE}?retryWrites=true&w=majority`
   )
   const db = client.db()
   const collections = db.collection('go-food')
