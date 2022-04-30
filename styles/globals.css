@@ -22,6 +22,10 @@ a {
   filter: hue-rotate(90deg);
 }
 
+.menu-active {
+  display: block !important;
+}
+
 .active {
   border-color: #00a770 !important;
   color: #00a770 !important;

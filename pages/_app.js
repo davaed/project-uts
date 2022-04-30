@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment, useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 
@@ -7,7 +7,13 @@ import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
+  const hiddenMenu = useRef(null)
+
   const [activeTab, setActiveTab] = useState(router.pathname)
+
+  function showHiddenMenu() {
+    hiddenMenu.current.classList.toggle('menu-active')
+  }
 
   useEffect(() => {
     setActiveTab(router.pathname)
@@ -46,8 +52,37 @@ function MyApp({ Component, pageProps }) {
         </div>
         <div className='flex justify-end'>
           <button>
-            <span className='text-3xl'>#</span>
+            <span className='text-2xl md:text-3xl hidden md:block'>#</span>
+            <span
+              className='block md:hidden hover:bg-[#00a770] hover:bg-opacity-40 runded-md transition ease-in-out duration-200 p-1.5'
+              onClick={showHiddenMenu}
+            >
+              <img src='/menu.svg' className='transform scale-[.85]' />
+            </span>
           </button>
+        </div>
+        <div
+          className='col-span-2 flex text-xl border-t border-[#eaeaea] space-x-6 mt-4 pt-4 hidden'
+          ref={hiddenMenu}
+        >
+          <Link href='/go-ride'>
+            <a
+              className={`${
+                activeTab.includes('go-ride') ? 'text-[#00a770]' : ''
+              } font-medium hover:text-[#00a770]`}
+            >
+              Go Ride
+            </a>
+          </Link>
+          <Link href='/go-food'>
+            <a
+              className={`${
+                activeTab.includes('go-food') ? 'text-[#00a770]' : ''
+              } font-medium hover:text-[#00a770]`}
+            >
+              Go Food
+            </a>
+          </Link>
         </div>
       </header>
 
