@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-import Layout from '../components/Layout'
+import Layout from '../components/common/Layout'
 import { Fragment } from 'react'
 
 export default function Home() {

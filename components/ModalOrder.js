@@ -1,6 +1,6 @@
 export default function ModalOrder({ selectedCoordinates, setConfirmed }) {
   return (
-    <div className='fixed top-0 left-0 w-screen h-screen bg-stone-900 bg-opacity-10 z-[999]'>
+    <div className='fixed top-0 left-0 w-screen h-screen bg-stone-900 bg-opacity-10 px-5 sm:px-10 lg:px-0 z-[9999]'>
       <div className='h-full flex flex-col justify-center items-center'>
         <div className='rounded-md border border-[#eaeaea] bg-white space-y-4 max-h-[75%] overflow-auto'>
           <div className='sticky top-0 flex justify-between border-b border-[#eaeaea] bg-white pb-2 p-4'>
@@ -15,7 +15,7 @@ export default function ModalOrder({ selectedCoordinates, setConfirmed }) {
           {selectedCoordinates.map((item, index) => (
             <div
               key={index}
-              className='grid grid-cols-2 cursor-pointer border border-[#eaeaea] hover:border-[crimson] hover:text-[crimson] rounded-md p-2 px-3 m-4'
+              className='grid grid-cols-1 sm:grid-cols-2 cursor-pointer border border-[#eaeaea] hover:border-[crimson] hover:text-[crimson] rounded-md p-2 px-3 m-4'
             >
               <div className='col-span-1 flex flex-col justify-start'>
                 <p>
@@ -27,7 +27,7 @@ export default function ModalOrder({ selectedCoordinates, setConfirmed }) {
                   <span className='italic'>Street/Place</span>
                 </p>
               </div>
-              <div className='col-span-1 flex justify-end'>
+              <div className='col-span-1 flex justify-end font-semibold sm:font-normal mt-3 sm:mt-0'>
                 Rp. {item.price}
               </div>
             </div>

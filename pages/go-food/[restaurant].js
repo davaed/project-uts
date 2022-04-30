@@ -3,7 +3,7 @@ import MultiRef from 'react-multi-ref'
 
 import { MongoClient } from 'mongodb'
 import { Fragment, useState } from 'react'
-import Layout from '../../components/Layout'
+import Layout from '../../components/common/Layout'
 import ModalMenus from '../../components/ModalMenus'
 
 export default function RestaurantDetail(props) {
@@ -60,7 +60,7 @@ export default function RestaurantDetail(props) {
             <ModalMenus selectedMenus={selected} setConfirmed={setConfirmed} />
           )}
 
-          <div className='grid grid-cols-4 gap-6 my-12'>
+          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 my-12'>
             {props.restaurant.menus.map((item, index) => (
               <div
                 className='cursor-pointer rounded-md border border-[#eaeaea] hover:border-[#0070f3] hover:text-[#0070f3] transition ease-in-out duration-200 p-4'

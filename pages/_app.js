@@ -15,13 +15,16 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Fragment>
-      <header className='grid grid-cols-3 border border-[#cfcfcf] rounded-sm mx-40 p-4 my-4'>
+      <header className='grid grid-cols-2 md:grid-cols-3 border border-[#cfcfcf] rounded-sm mx-5 sm:mx-10 lg:mx-20 xl:mx-40 p-4 my-4'>
         <div className='flex flex-start'>
           <Link href='/'>
-            <a className='font-semibold text-3xl text-[#00a770]'>GoWhatever</a>
+            <a className='font-semibold text-2xl sm:text-3xl text-[#00a770]'>
+              <span className='hidden sm:block'>GoWhatever</span>
+              <span className='block sm:hidden'>GOW</span>
+            </a>
           </Link>
         </div>
-        <div className='flex items-center justify-center space-x-24'>
+        <div className='md:flex justify-center items-center hidden space-x-12'>
           <Link href='/go-ride'>
             <a
               className={`${
@@ -42,9 +45,9 @@ function MyApp({ Component, pageProps }) {
           </Link>
         </div>
         <div className='flex justify-end'>
-          <Link href='/'>
-            <a className='text-3xl'>#</a>
-          </Link>
+          <button>
+            <span className='text-3xl'>#</span>
+          </button>
         </div>
       </header>
 

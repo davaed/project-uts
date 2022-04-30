@@ -7,6 +7,8 @@ import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import 'leaflet-defaulticon-compatibility'
 import 'esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css'
 
+import Loading from './common/Loading'
+
 import { Fragment, useState, useEffect } from 'react'
 
 function LocationMarker({ APIKEY, coordinates, listCoordinates, setListCoordinates }) {
@@ -175,7 +177,7 @@ export default function TMap({
   }, [])
 
   return !loading ? (
-    <div className='w-[100%] h-[75vh] my-12'>
+    <div className='w-[100%] h-[50vh] lg:h-[75vh] my-3 sm:my-6 lg:my-12'>
       <MapContainer
         center={coordinates.pickUpPoint}
         zoom={14}
@@ -195,6 +197,6 @@ export default function TMap({
       </MapContainer>
     </div>
   ) : (
-    'loading'
+    <Loading />
   )
 }

@@ -3,7 +3,7 @@ import Head from 'next/head'
 import { MongoClient } from 'mongodb'
 import { useRouter } from 'next/router'
 
-import Layout from '../../components/Layout'
+import Layout from '../../components/common/Layout'
 import { Fragment } from 'react'
 
 export default function GoFood(props) {
@@ -28,10 +28,10 @@ export default function GoFood(props) {
           'Eat simply by purchasing without needing to purchase it straight from the restaurant to eat.'
         }
       >
-        <div className='grid grid-cols-5 my-12'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 mb-6 sm:my-6 md:my-12'>
           {props.restaurants.map((item) => (
             <div
-              className='cursor-pointer rounded-md border border-[#eaeaea] hover:border-[#0070f3] hover:text-[#0070f3] transition ease-in-out duration-200 p-4 m-4'
+              className='cursor-pointer rounded-md border border-[#eaeaea] hover:border-[#0070f3] hover:text-[#0070f3] transition ease-in-out duration-200 p-4'
               key={item.id}
               onClick={() => redirect(item.name)}
             >
