@@ -37,6 +37,7 @@ export default function GoRide(props) {
         {confirmed && (
           <ModalOrder
             selectedCoordinates={listCoordinates}
+            setListCoordinates={setListCoordinates}
             setConfirmed={setConfirmed}
           />
         )}
