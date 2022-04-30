@@ -55,7 +55,6 @@ function LocationMarker({ APIKEY, coordinates, listCoordinates, setListCoordinat
 
   async function fetchNearestLocation(lat, lng) {
     const response = await fetch(
-      // `https://www.mapquestapi.com/geocoding/v1/reverse?key=2c3Fa9WjwCEdWU0erVbbZeRTP3lAF6Q2`,
       `https://www.mapquestapi.com/geocoding/v1/reverse?key=${APIKEY}`,
       {
         method: 'POST',
