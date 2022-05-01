@@ -19,7 +19,7 @@ export default function ModalOrder({
               className='bg-rose-200 hover:bg-rose-300 transistion ease-in-out duration-200 rounded-md p-0.5'
               onClick={() => setConfirmed(false)}
             >
-              <img src='/icon/close.svg' className='transform scale-[.65]' />
+              <img src='/icons/close.svg' className='transform scale-[.65]' />
             </button>
           </div>
           {selectedCoordinates.map((item, index) => (

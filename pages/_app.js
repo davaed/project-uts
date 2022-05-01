@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <main className='h-fullscreen grid grid-cols-1 md:grid-cols-5 text-black'>
-      <header className='md:col-span-2 border-r border-[#d6d6d6] z-[99999]'>
+      <header className='md:col-span-2 border-r border-[#d6d6d6] z-[99999] md:z-0'>
         <div className='md:h-fullscreen sticky md:top-12'>
           <div
             className='h-full flex flex-col bg-white md:bg-inherit flex flex-col justify-between border-t border-[#d6d6d6] md:mt-12 border-b'
