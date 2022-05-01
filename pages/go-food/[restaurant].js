@@ -45,22 +45,24 @@ export default function RestaurantDetail(props) {
         description={`This is ${props.restaurant.name} restaurant`}
       >
         <Fragment>
-          {selected.length > 0 && (
-            <div className='flex justify-end'>
-              <button
-                className='cursor-pointer rounded-md border border-[#eaeaea] hover:border-[#00a770] hover:text-[#ffffff] hover:bg-[#00a770] transition ease-in-out duration-200 px-6 py-2.5'
-                onClick={() => setConfirmed(true)}
-              >
-                Confirm choice
-              </button>
-            </div>
-          )}
-
           {confirmed && (
             <ModalMenus selectedMenus={selected} setConfirmed={setConfirmed} />
           )}
 
-          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 my-12'>
+          {selected.length > 0 && (
+            <div className='sticky top-0 col-span-4 border border-[#d6d6d6] bg-white p-4 z-[55]'>
+              <div className='flex justify-end'>
+                <button
+                  className='cursor-pointer rounded-md border border-[#eaeaea] hover:border-[#00a770] hover:text-[#ffffff] hover:bg-[#00a770] transition ease-in-out duration-200 px-6 py-2.5'
+                  onClick={() => setConfirmed(true)}
+                >
+                  Confirm choice
+                </button>
+              </div>
+            </div>
+          )}
+
+          <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 relative py-4 md:py-8'>
             {props.restaurant.menus.map((item, index) => (
               <div
                 className='cursor-pointer rounded-md border border-[#eaeaea] hover:border-[#0070f3] hover:text-[#0070f3] transition ease-in-out duration-200 p-4'
@@ -73,8 +75,7 @@ export default function RestaurantDetail(props) {
                   {item.name}
                 </h2>
                 <p>
-                  {item.price}$
-                  <small>/pcs</small>
+                  {item.price}$<small>/pcs</small>
                 </p>
               </div>
             ))}
