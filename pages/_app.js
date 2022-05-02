@@ -14,6 +14,7 @@ function MyApp({ Component, pageProps }) {
   const [activeTab, setActiveTab] = useState(router.pathname)
 
   function redirect(url) {
+    showMenus()
     router.push(url)
   }
 
