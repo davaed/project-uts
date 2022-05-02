@@ -21,20 +21,61 @@ a {
   box-sizing: border-box;
 }
 
-.component {
+.link {
+  transition: ease-in-out 0.4s;
+}
+
+.link > div:last-of-type > img {
+  transition: ease-in-out 0.4s;
+}
+
+.link:hover {
+  transition: ease-in-out 0.2s;
+  background-color: #00a770 !important;
+  color: #fff;
+}
+
+.link:hover > div:last-of-type > img {
+  transition: ease-in-out 0.2s;
+  filter: brightness(0) invert(1);
+}
+
+.link:hover > .link-active {
+  color: #fff !important;
+}
+
+.link-active {
+  color: #00a770;
+}
+
+.notification-count {
+  position: absolute;
+  z-index: 1;
+  top: -6px;
+  right: -6px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 18px;
+  border-radius: 50%;
+  background-color: #ff4927;
+  color: #fff;
+}
+
+.ban-scrollbar {
   scrollbar-width: none;
 }
-.component::-webkit-scrollbar {
+.ban-scrollbar::-webkit-scrollbar {
   width: 0 !important;
 }
-.component::-webkit-scrollbar-thumb {
+.ban-scrollbar::-webkit-scrollbar-thumb {
   background-color: transparent;
   border: none;
 }
-.component {
+.ban-scrollbar {
   overflow: -moz-scrollbars-none;
 }
-.component {
+.ban-scrollbar {
   -ms-overflow-style: none;
 }
 
@@ -54,23 +95,4 @@ a {
 .active:hover {
   border-color: crimson !important;
   color: crimson !important;
-}
-
-.hover-menu {
-  transition: ease-in-out 0.4s;
-}
-
-.hover-menu > img {
-  transition: ease-in-out 0.4s;
-}
-
-.hover-menu:hover {
-  transition: ease-in-out 0.2s;
-  background-color: #00a770 !important;
-  color: #fff;
-}
-
-.hover-menu:hover > img {
-  transition: ease-in-out 0.2s;
-  filter: brightness(0) invert(1);
 }

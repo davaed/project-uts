@@ -7,23 +7,22 @@ import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
-  const hiddenMenu = useRef(null)
-  const hiddenItem = useRef(null)
+  const leftWrapper = useRef(null)
+  const contWrapper = useRef(null)
+  const secondItems = useRef(null)
 
   const [activeTab, setActiveTab] = useState(router.pathname)
 
-  function showHiddenMenu() {
-    const classList =
-      'fixed md:relative w-full md:w-auto'.split(' ')
-
-    classList.map((className) => {
-      hiddenMenu.current.classList.toggle(className)
-    })
-    hiddenItem.current.classList.toggle('hidden')
-  }
-
   function redirect(url) {
     router.push(url)
+  }
+
+  function showMenus() {
+    secondItems.current.classList.toggle('hidden')
+
+    contWrapper.current.classList.toggle('bg-white')
+    contWrapper.current.classList.toggle('h-screen')
+    leftWrapper.current.classList.toggle('h-0')
   }
 
   useEffect(() => {
@@ -31,30 +30,31 @@ function MyApp({ Component, pageProps }) {
   }, [router.pathname])
 
   return (
-    <main className='h-fullscreen grid grid-cols-1 md:grid-cols-5 text-black'>
-      <header className='md:col-span-2 border-r border-[#d6d6d6] z-[99999] md:z-0'>
-        <div className='md:h-fullscreen sticky md:top-12'>
+    <main className='h-fullscreen grid grid-cols-1 md:grid-cols-5'>
+      <header className='md:col-span-2 w-full md:w-auto fixed md:relative border-r border-[#d6d6d6] z-[9999] md:z-0'>
+        {/* left-page wrapper */}
+        <div
+          className='h-20 md:h-fullscreen sticky top-12 bg-white md:bg-inherit'
+          ref={leftWrapper}
+        >
+          {/* left-page content wrapper */}
           <div
-            className='h-full flex flex-col bg-white md:bg-inherit flex flex-col justify-between border-t border-[#d6d6d6] md:mt-12 border-b'
-            ref={hiddenMenu}
+            className='md:h-fullscreen flex flex-col justify-between md:border-t border-[#d6d6d6] md:mt-12'
+            ref={contWrapper}
           >
-            <div className='flex flex-row md:flex-col justify-between md:justify-start items-center md:items-start md:space-y-4 my-3 mx-5 md:m-8'>
+            {/* first content */}
+            <div className='flex flex-row md:flex-col justify-between md:justify-start items-center md:items-start border-b border-[#d6d6d6] md:border-0 md:space-y-8 py-4 px-8 md:py-0 md:px-0 md:m-8'>
+              {/* items logo */}
               <Link href='/'>
-                <a className='font-semibold text-5xl md:text-7xl text-[#00a770] hover:underline'>
-                  <span className='hidden md:block'>NOT-GOJEK</span>
-                  <span className='block md:hidden'>NG</span>
+                <a className='font-semibold uppercase text-5xl md:text-7xl xl:text-8xl text-[#00a770] hover:underline'>
+                  <span className='hidden md:block'>not-gojek</span>
+                  <span className='block md:hidden'>ng</span>
                 </a>
               </Link>
-              <button
-                className='inline-block md:hidden hover:bg-[#00a770] hover:bg-opacity-40 runded-md transition ease-in-out duration-200'
-                onClick={showHiddenMenu}
-              >
-                <img
-                  src='/icons/menu.svg'
-                  className='border transform scale-[.85] p-2'
-                />
-              </button>
-              <div className='flex flex-col text-lg text-justify space-y-4 hidden md:block'>
+              {/* endof items logo */}
+
+              {/* items description */}
+              <div className='flex flex-col text-justify space-y-4 hidden md:block'>
                 <p>
                   Welcome to{' '}
                   <span className='font-semibold text-[#00a770]'>
@@ -71,51 +71,74 @@ function MyApp({ Component, pageProps }) {
                   airport.
                 </p>
               </div>
-            </div>
-            <div className='border-t divide-y divide-[#d6d6d6] z-[9999] hidden md:block' ref={hiddenItem}>
-              <div className='flex justify-between items-center text-3xl md:text-5xl p-4'>
-                <div
-                  className={`${
-                    activeTab.includes('go-ride') ? 'text-[#00a770]' : ''
-                  } font-semibold`}
-                >
-                  GO-RIDE
-                </div>
-                <div
-                  className='flex hover-menu cursor-pointer space-x-4 p-4'
-                  onClick={() => redirect('/go-ride')}
-                >
-                  <img
-                    src='/icons/arrow-up-right.svg'
-                    className='transform scale-[1.25] md:scale-[2]'
-                  />
-                </div>
-              </div>
-              <div className='flex justify-between items-center text-3xl md:text-5xl p-4'>
-                <div
-                  className={`${
-                    activeTab.includes('go-food') ? 'text-[#00a770]' : ''
-                  } font-semibold`}
-                >
-                  GO-FOOD
-                </div>
-                <div
-                  className='flex hover-menu cursor-pointer space-x-4 p-4'
-                  onClick={() => redirect('/go-food')}
-                >
-                  <img
-                    src='/icons/arrow-up-right.svg'
-                    className='transform scale-[1.25] md:scale-[2]'
-                  />
-                </div>
-              </div>
+              {/* endof items description */}
 
-              <div className='flex justify-end items-center space-x-8 p-4'>
+              {/* items button menu */}
+              <div className='inline-flex'>
+                <button className='block md:hidden' onClick={showMenus}>
+                  <img
+                    src='/icons/menu.svg'
+                    className='border transform scale-[.85] p-2'
+                  />
+                </button>
+              </div>
+              {/* endof items button menu */}
+            </div>
+            {/* endof first content */}
+
+            {/* second content */}
+            <div
+              className='flex flex-col border-t border-[#d6d6d6] divide-y divide-[#d6d6d6] hidden md:block'
+              ref={secondItems}
+            >
+              {/* items go-ride link */}
+              <div
+                className='flex justify-between items-center cursor-pointer link p-4'
+                onClick={() => redirect('/go-ride')}
+              >
+                <div
+                  className={`${
+                    activeTab.includes('go-ride') ? 'link-active' : ''
+                  } uppercase font-semibold text-4xl lg:text-5xl`}
+                >
+                  go-ride
+                </div>
+                <div>
+                  <img
+                    src='/icons/arrow-up-right.svg'
+                    className='transform scale-[1.25] lg:scale-[2]'
+                  />
+                </div>
+              </div>
+              {/* endof items go-ride link */}
+
+              {/* items go-foods link */}
+              <div
+                className='flex justify-between items-center cursor-pointer link p-4'
+                onClick={() => redirect('/go-food')}
+              >
+                <div
+                  className={`${
+                    activeTab.includes('go-food') ? 'link-active' : ''
+                  } uppercase font-semibold text-4xl lg:text-5xl`}
+                >
+                  go-food
+                </div>
+                <div>
+                  <img
+                    src='/icons/arrow-up-right.svg'
+                    className='transform scale-[1.25] lg:scale-[2]'
+                  />
+                </div>
+              </div>
+              {/* endof items go-foods link */}
+
+              <footer className='flex flex-col lg:flex-row justify-end items-start lg:items-center space-y-4 lg:space-y-0 lg:space-x-8 p-4'>
                 <a
                   href='https://github.com/davaed/project-uts'
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='flex items-center cursor-pointer uppercase font-semibold hover:underline space-x-1'
+                  className='flex items-center cursor-pointer uppercase font-semibold space-x-1 hover:underline'
                 >
                   <img
                     src='/icons/github.svg'
@@ -124,7 +147,11 @@ function MyApp({ Component, pageProps }) {
                   <span>see in github</span>
                 </a>
                 <Link href='/about'>
-                  <a className='flex items-center cursor-pointer uppercase font-semibold hover:underline space-x-1'>
+                  <a
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='flex items-center cursor-pointer uppercase font-semibold space-x-1 hover:underline'
+                  >
                     <img
                       src='/icons/eye.svg'
                       className='transform scale-[.65]'
@@ -132,12 +159,15 @@ function MyApp({ Component, pageProps }) {
                     <span>about this website</span>
                   </a>
                 </Link>
-              </div>
+              </footer>
             </div>
+            {/* endof second content */}
           </div>
+          {/* endof left-page content wrapper */}
         </div>
+        {/* endof left-page wrapper */}
       </header>
-      <section className='md:col-span-3 mx-5 md:mx-10'>
+      <section className='md:col-span-3 mt-20 md:mt-0'>
         <Component {...pageProps} />
       </section>
     </main>

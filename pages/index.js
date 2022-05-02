@@ -18,7 +18,15 @@ export default function Home() {
         description={
           'You can drive wherever you want, whenever you want, and eat anything you want without leaving your house!'
         }
-      ></Layout>
+      >
+        <div className='flex justify-center m-16'>
+          <img
+            src='/cat.png'
+            className='cursor-pointer'
+            onClick={(e) => e.target.classList.toggle('invert')}
+          ></img>
+        </div>
+      </Layout>
     </Fragment>
   )
 }

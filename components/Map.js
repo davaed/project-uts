@@ -176,7 +176,7 @@ export default function TMap({
   }, [])
 
   return !loading ? (
-    <div className='w-[100%] h-[50vh] lg:h-[75vh] my-2 sm:my-4 lg:my-8'>
+    <div className='w-[100%] h-[50vh] lg:h-[75vh]'>
       <MapContainer
         center={coordinates.pickUpPoint}
         zoom={14}
