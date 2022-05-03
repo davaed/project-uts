@@ -12,6 +12,7 @@ function MyApp({ Component, pageProps }) {
   const secondItems = useRef(null)
 
   const [activeTab, setActiveTab] = useState(router.pathname)
+  const [isWindows, setIsWindows] = useState(false)
 
   function redirect(url) {
     showMenus()
@@ -19,16 +20,22 @@ function MyApp({ Component, pageProps }) {
   }
 
   function showMenus() {
-    secondItems.current.classList.toggle('hidden')
+    if (window.innerWidth < 768) {
+      secondItems.current.classList.toggle('hidden')
 
-    contWrapper.current.classList.toggle('bg-white')
-    contWrapper.current.classList.toggle('h-screen')
-    leftWrapper.current.classList.toggle('h-0')
+      contWrapper.current.classList.toggle('bg-white')
+      contWrapper.current.classList.toggle('h-screen')
+      leftWrapper.current.classList.toggle('h-0')
+    }
   }
 
   useEffect(() => {
     setActiveTab(router.pathname)
   }, [router.pathname])
+
+  useEffect(() => {
+    if (window !== undefined) setIsWindows(true)
+  }, [])
 
   return (
     <main className='h-fullscreen grid grid-cols-1 md:grid-cols-5'>
