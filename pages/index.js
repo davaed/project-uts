@@ -21,7 +21,7 @@ export default function Home() {
       >
         <div className='flex justify-center m-16'>
           <img
-            src='/cat.png'
+            src='/this-is-cat.png.png'
             className='cursor-pointer'
             onClick={(e) => e.target.classList.toggle('invert')}
           ></img>
