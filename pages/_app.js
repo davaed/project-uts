@@ -17,22 +17,22 @@ function SectionNavigation({ router }) {
     {
       path: 'go-ride',
       icon: 'maps',
-      background: 'lime',
+      background: 'bg-lime',
     },
     {
       path: 'go-food',
       icon: 'food',
-      background: 'jasmine',
+      background: 'bg-jasmine',
     },
     {
       path: 'history',
       icon: 'pays',
-      background: 'rose',
+      background: 'bg-rose',
     },
     {
       path: 'cat',
       icon: 'qmark',
-      background: 'silver',
+      background: 'bg-silver',
     },
   ]
 
@@ -45,7 +45,7 @@ function SectionNavigation({ router }) {
     <div className='h-full grid grid-cols-2 gap-8 text-[#333333]'>
       {tabList.map((tab, index) => (
         <div
-          className={`grid place-items-center cursor-pointer bg-${tab.background} bg-opacity-80 hover:bg-opacity-100 transition ease-in-out duration-200 p-8`}
+          className={`grid place-items-center cursor-pointer ${tab.background} bg-opacity-80 hover:bg-opacity-100 transition ease-in-out duration-200 p-8`}
           key={index}
           onClick={() => redirect(`/${tab.path}`)}
         >
