@@ -13,7 +13,6 @@ export default function Home() {
       </Head>
 
       <Layout
-        skips={true}
         page={'NOT GOJEK'}
         description={
           'You can drive wherever you want, whenever you want, and eat anything you want without leaving your house!'

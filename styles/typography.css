@@ -1,0 +1,8 @@
+@font-face {
+  font-family: 'Satoshi';
+  src: url('../fonts/satoshi/Satoshi-Light.otf')
+    url('../fonts/satoshi/Satoshi-Medium.otf')
+    url('../fonts/satoshi/Satoshi-Regular.otf')
+    url('../fonts/satoshi/Satoshi-Bold.otf')
+    url('../fonts/satoshi/Satoshi-Black.otf');
+}

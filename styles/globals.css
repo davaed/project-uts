@@ -4,12 +4,10 @@ html,
 body {
   padding: 0;
   margin: 0;
-  /* font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; */
-  font-family: 'Poppins', sans-serif;
-  /* overflow-y: hidden !important; */
+  font-family: 'Satoshi', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* background-color: #F8F5F2; */
 }
 
 a {
@@ -46,6 +44,33 @@ a {
 
 .link-active {
   color: #00a770;
+}
+
+.link-history-active {
+  color: #ffc220 !important;
+}
+
+.link-history {
+  transition: ease-in-out 0.4s;
+}
+
+.link-history > div:last-of-type > img {
+  transition: ease-in-out 0.4s;
+}
+
+.link-history:hover {
+  transition: ease-in-out 0.2s;
+  background-color: #ffc220 !important;
+  color: #fff !important;
+}
+
+.link-history:hover > div:last-of-type > img {
+  transition: ease-in-out 0.2s;
+  filter: brightness(0) invert(1);
+}
+
+.link-history:hover > div:first-of-type {
+  color: #fff !important;
 }
 
 .notification-count {
@@ -95,4 +120,12 @@ a {
 .active:hover {
   border-color: crimson !important;
   color: crimson !important;
+}
+
+.table-no-shadow > div {
+  box-shadow: none !important;
+  /* border: none !important; */
+  border-left: 1px solid rgba(224, 224, 224, 1);
+  border-top: 1px solid rgba(224, 224, 224, 1);
+  border-right: 1px solid rgba(224, 224, 224, 1);
 }

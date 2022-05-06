@@ -1,185 +1,121 @@
-import { Fragment, useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+
+import ContextProvider from '../state/contextProvider'
 
 import '../styles/tailwind.css'
 import '../styles/globals.css'
 
-function MyApp({ Component, pageProps }) {
-  const router = useRouter()
-  const leftWrapper = useRef(null)
-  const contWrapper = useRef(null)
-  const secondItems = useRef(null)
+// bg-[#d3f26a], bg-[#25282b]
+// bg-[#FEE7DC], bg-[#EEF7FA], bg-[#222222]
 
+function SectionNavigation({ router }) {
+  const [isDocumentLoaded, setIsDocumentLoaded] = useState(false)
   const [activeTab, setActiveTab] = useState(router.pathname)
-  const [isWindows, setIsWindows] = useState(false)
+  const tabList = [
+    {
+      path: 'go-ride',
+      icon: 'maps',
+      background: 'lime',
+    },
+    {
+      path: 'go-food',
+      icon: 'food',
+      background: 'jasmine',
+    },
+    {
+      path: 'history',
+      icon: 'pays',
+      background: 'rose',
+    },
+    {
+      path: 'cat',
+      icon: 'qmark',
+      background: 'silver',
+    },
+  ]
 
   function redirect(url) {
-    showMenus()
+    setActiveTab(url)
     router.push(url)
   }
 
-  function showMenus() {
-    if (window.innerWidth < 768) {
-      secondItems.current.classList.toggle('hidden')
-
-      contWrapper.current.classList.toggle('bg-white')
-      contWrapper.current.classList.toggle('h-screen')
-      leftWrapper.current.classList.toggle('h-0')
-    }
-  }
-
-  useEffect(() => {
-    setActiveTab(router.pathname)
-  }, [router.pathname])
-
-  useEffect(() => {
-    if (window !== undefined) setIsWindows(true)
-  }, [])
-
   return (
-    <main className='h-fullscreen grid grid-cols-1 md:grid-cols-5'>
-      <header className='md:col-span-2 w-full md:w-auto fixed md:relative border-r border-[#d6d6d6] z-[9999] md:z-0'>
-        {/* left-page wrapper */}
+    <div className='h-full grid grid-cols-2 gap-8 text-[#333333]'>
+      {tabList.map((tab, index) => (
         <div
-          className='h-20 md:h-fullscreen sticky top-12 bg-white md:bg-inherit'
-          ref={leftWrapper}
+          className={`grid place-items-center cursor-pointer bg-${tab.background} bg-opacity-80 hover:bg-opacity-100 transition ease-in-out duration-200 p-8`}
+          key={index}
+          onClick={() => redirect(`/${tab.path}`)}
         >
-          {/* left-page content wrapper */}
-          <div
-            className='md:h-fullscreen flex flex-col justify-between md:border-t border-[#d6d6d6] md:mt-12'
-            ref={contWrapper}
-          >
-            {/* first content */}
-            <div className='flex flex-row md:flex-col justify-between md:justify-start items-center md:items-start border-b border-[#d6d6d6] md:border-0 md:space-y-8 py-4 px-8 md:py-0 md:px-0 md:m-8'>
-              {/* items logo */}
-              <Link href='/'>
-                <a className='font-semibold uppercase text-5xl md:text-7xl xl:text-8xl text-[#00a770] hover:underline'>
-                  <span className='hidden md:block'>not-gojek</span>
-                  <span className='block md:hidden'>ng</span>
-                </a>
-              </Link>
-              {/* endof items logo */}
-
-              {/* items description */}
-              <div className='flex flex-col text-justify space-y-4 hidden md:block'>
-                <p>
-                  Welcome to{' '}
-                  <span className='font-semibold text-[#00a770]'>
-                    NOT-GOJEK
-                  </span>
-                  , a site that allows you to schedule rides and solely order
-                  food anywhere and whenever you want, without leaving your
-                  house!
-                </p>
-                <p>
-                  We are a group of enthusiastic developers dedicated to
-                  creating a better future for humans. As a result, people do
-                  not have to leave their houses to travel to restaurants or the
-                  airport.
-                </p>
-              </div>
-              {/* endof items description */}
-
-              {/* items button menu */}
-              <div className='inline-flex'>
-                <button className='block md:hidden' onClick={showMenus}>
-                  <img
-                    src='/icons/menu.svg'
-                    className='border transform scale-[.85] p-2'
-                  />
-                </button>
-              </div>
-              {/* endof items button menu */}
-            </div>
-            {/* endof first content */}
-
-            {/* second content */}
-            <div
-              className='flex flex-col border-t border-[#d6d6d6] divide-y divide-[#d6d6d6] hidden md:block'
-              ref={secondItems}
-            >
-              {/* items go-ride link */}
-              <div
-                className='flex justify-between items-center cursor-pointer link p-4'
-                onClick={() => redirect('/go-ride')}
-              >
-                <div
-                  className={`${
-                    activeTab.includes('go-ride') ? 'link-active' : ''
-                  } uppercase font-semibold text-4xl lg:text-5xl`}
-                >
-                  go-ride
-                </div>
-                <div>
-                  <img
-                    src='/icons/arrow-up-right.svg'
-                    className='transform scale-[1.25] lg:scale-[2]'
-                  />
-                </div>
-              </div>
-              {/* endof items go-ride link */}
-
-              {/* items go-foods link */}
-              <div
-                className='flex justify-between items-center cursor-pointer link p-4'
-                onClick={() => redirect('/go-food')}
-              >
-                <div
-                  className={`${
-                    activeTab.includes('go-food') ? 'link-active' : ''
-                  } uppercase font-semibold text-4xl lg:text-5xl`}
-                >
-                  go-food
-                </div>
-                <div>
-                  <img
-                    src='/icons/arrow-up-right.svg'
-                    className='transform scale-[1.25] lg:scale-[2]'
-                  />
-                </div>
-              </div>
-              {/* endof items go-foods link */}
-
-              <footer className='flex flex-col lg:flex-row justify-end items-start lg:items-center space-y-4 lg:space-y-0 lg:space-x-8 p-4'>
-                <a
-                  href='https://github.com/davaed/project-uts'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='flex items-center cursor-pointer uppercase font-semibold space-x-1 hover:underline'
-                >
-                  <img
-                    src='/icons/github.svg'
-                    className='transform scale-[.65]'
-                  />
-                  <span>see in github</span>
-                </a>
-                <Link href='/about'>
-                  <a
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='flex items-center cursor-pointer uppercase font-semibold space-x-1 hover:underline'
-                  >
-                    <img
-                      src='/icons/eye.svg'
-                      className='transform scale-[.65]'
-                    />
-                    <span>about this website</span>
-                  </a>
-                </Link>
-              </footer>
-            </div>
-            {/* endof second content */}
-          </div>
-          {/* endof left-page content wrapper */}
+          <img src={`/icons/icon-${tab.icon}.svg`} className='w-24 h-24' />
         </div>
-        {/* endof left-page wrapper */}
-      </header>
-      <section className='md:col-span-3 mt-20 md:mt-0'>
-        <Component {...pageProps} />
-      </section>
-    </main>
+      ))}
+    </div>
   )
 }
 
-export default MyApp
+export default function NotGojekApp({ Component, pageProps }) {
+  const router = useRouter()
+
+  const tabList = ['go-ride', 'go-food', 'history', 'cat']
+  const [onChildComponent, setOnChildComponent] = useState(false)
+
+  function redirect(url) {
+    router.push(url)
+  }
+
+  useEffect(() => {
+    const path = router.pathname.split('/')[1]
+    setOnChildComponent(tabList.includes(path) ? true : false)
+  }, [router.pathname])
+
+  return (
+    <main
+      className={`h-screen grid ${
+        onChildComponent ? 'grid-cols-5' : 'grid-cols-2'
+      }`}
+    >
+      <div
+        className={`h-full ${
+          onChildComponent ? 'col-span-2' : 'col-span-1'
+        } border-r p-8`}
+      >
+        <div className='h-full flex flex-col justify-between'>
+          <div className='flex justify-between items-center'>
+            <div
+              className='cursor-pointer text-2xl hover:underline'
+              onClick={() => redirect('/')}
+            >
+              食べたい
+            </div>
+          </div>
+          <div className='grid place-items-center font-medium text-9xl'>
+            <h1>食べたい</h1>
+            {onChildComponent && (
+              <div className={`h-full pt-12`}>
+                <SectionNavigation router={router} />
+              </div>
+            )}
+          </div>
+          <div className='flex justify-end space-x-8'>
+            <div>github</div>
+            <div>about</div>
+          </div>
+        </div>
+      </div>
+      {!onChildComponent ? (
+        <div className={`h-full col-span-1 p-8`}>
+          <SectionNavigation router={router} />
+        </div>
+      ) : (
+        <section className='col-span-3'>
+          <ContextProvider>
+            <Component {...pageProps} />
+          </ContextProvider>
+        </section>
+      )}
+    </main>
+  )
+}

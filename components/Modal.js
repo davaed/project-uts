@@ -21,7 +21,10 @@ export default function ModalContent(props) {
               <span>Rp. {props.totalPrice}</span>
             </div>
             <div className='flex justify-end'>
-              <button className='text-white bg-[#00d18b] rounded-md transistion ease-in-out duration-200 hover:bg-[#00a770] px-10 py-1.5'>
+              <button
+                className='text-white bg-[#00d18b] rounded-md transistion ease-in-out duration-200 hover:bg-[#00a770] px-10 py-1.5'
+                onClick={props.onClickPay}
+              >
                 Pay
               </button>
             </div>

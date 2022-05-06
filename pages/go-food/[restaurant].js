@@ -1,37 +1,112 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useContext } from 'react'
+import { useRouter } from 'next/router'
 import Head from 'next/head'
 import MultiRef from 'react-multi-ref'
 
 import { MongoClient } from 'mongodb'
+import ContextProvider, { GlobalContext } from '../../state/contextProvider'
 
 import Layout from '../../components/common/Layout'
 import Modal from '../../components/Modal'
 import ConfirmButton from '../../components/common/ConfirmButton'
 
-function RestaurantMenus({ setSelectedMenu, selectedMenu, restaurantMenus }) {
+function ItemMenus({ selectedMenu, restaurant }) {
+  return selectedMenu.map((item, _) => {
+    if (item.restaurant === restaurant)
+      return item.menus.map((menu, index) => (
+        <div className='grid grid-cols-3 gap-8 mx-4' key={index}>
+          <div className='col-span-2 flex justify-start break-all'>
+            1 &#215; {menu.name}
+          </div>
+          <div className='col-span-1 flex justify-end'>{menu.price}</div>
+        </div>
+      ))
+  })
+}
+
+function RestaurantMenus({ setSelectedMenu, selectedMenu, restaurant }) {
   const items = new MultiRef()
 
-  function selectMenu(index, name, price) {
+  function selectMenu(index, restaurantName, name, price) {
     items.map.forEach((el) => {
-      if (el.attributes['aria-label'].value === `menu-${index}`) {
-        if (el.classList.contains('active')) {
-          setSelectedMenu(selectedMenu.filter((item) => item.index !== index))
-        } else {
-          setSelectedMenu([...selectedMenu, { index, name, price }])
-        }
+      if (el.attributes['aria-label'].value !== `menu-${index}`) return
+
+      // remove selected menu from order, if it's already selected
+      if (el.classList.contains('active')) {
         el.classList.toggle('active')
+        filterSelectedMenu(index, restaurantName)
+        return
       }
+
+      // add selected menu to order
+      if (selectedMenu.length === 0) {
+        el.classList.toggle('active')
+        updateSelected(restaurantName, index, name, price)
+        return
+      }
+
+      // update selected menu of selected restaurant order
+      if (selectedMenu.length > 0) {
+        el.classList.toggle('active')
+        updateSelectedMenu(restaurantName, index, name, price)
+        return
+      }
+
       return
     })
   }
 
-  return restaurantMenus.map((item, index) => (
+  function filterSelectedMenu(menuIndex, restaurantName) {
+    const updated = selectedMenu.map((item) => {
+      return {
+        ...item,
+        menus: item.menus.filter(({ index }) => {
+          if (item.restaurant === restaurantName) {
+            return index !== menuIndex
+          } else return item.menus
+        }),
+      }
+    })
+    setSelectedMenu(updated)
+  }
+
+  function updateSelectedMenu(restaurantName, index, name, price) {
+    selectedMenu.filter((item) => {
+      if (item.restaurant === restaurantName) {
+        item.menus.push({ index, name, price, status: 'pending' })
+        setSelectedMenu([...selectedMenu])
+      } else {
+        updateSelected(restaurantName, index, name, price)
+      }
+    })
+  }
+
+  function updateSelected(restaurantName, index, name, price) {
+    setSelectedMenu([
+      ...selectedMenu,
+      {
+        restaurant: restaurantName,
+        menus: [{ index, name, price, status: 'pending' }],
+      },
+    ])
+  }
+
+  function isSelectedMenu(userSelectedMenu) {
+    const setSelected = selectedMenu.some((item) => {
+      return item.menus.some((menu) => menu.name === userSelectedMenu.name)
+    })
+    return setSelected ? 'active' : ''
+  }
+
+  return restaurant.menus.map((item, index) => (
     <div
-      className='cursor-pointer border border-[#eaeaea] rounded-md transition ease-in-out duration-200 p-4 hover:border-[#0070f3] hover:text-[#0070f3]'
+      className={`${isSelectedMenu(
+        item
+      )} cursor-pointer border border-[#eaeaea] rounded-md transition ease-in-out duration-200 p-4 hover:border-[#0070f3] hover:text-[#0070f3]`}
       key={`${index}`}
       ref={items.ref(index)}
       aria-label={`menu-${index}`}
-      onClick={() => selectMenu(index, item.name, item.price)}
+      onClick={() => selectMenu(index, restaurant.name, item.name, item.price)}
     >
       <h2 className='capitalize font-semibold text-xl'>{item.name}</h2>
       <p>
@@ -42,20 +117,34 @@ function RestaurantMenus({ setSelectedMenu, selectedMenu, restaurantMenus }) {
   ))
 }
 
-function ItemMenus({ selectedMenu }) {
-  return selectedMenu.map((item, index) => (
-    <div className='grid grid-cols-3 gap-8 mx-4' key={index}>
-      <div className='col-span-2 flex justify-start break-all'>
-        1 &#215; {item.name}
-      </div>
-      <div className='col-span-1 flex justify-end'>{item.price}</div>
-    </div>
-  ))
-}
-
 export default function RestaurantDetail(props) {
-  const [selectedMenu, setSelectedMenu] = useState([])
+  const router = useRouter()
+  const { restaurant } = router.query
+
+  const [goFood, setGoFood] = useContext(GlobalContext)
   const [isConfirmed, setIsConfirmed] = useState(false)
+
+  function calculateTotalPrice() {
+    let totalPrice = 0
+
+    goFood.forEach((item) => {
+      if (item.restaurant === restaurant)
+        item.menus.forEach((menu) => {
+          totalPrice += menu.price
+        })
+    })
+    return totalPrice
+  }
+
+  function pay() {
+    goFood.map((item) => {
+      if (item.restaurant === restaurant) {
+        item.menus.forEach((menu) => {
+          menu.status = ['paid', 'failed'][Math.floor(Math.random() * 2)]
+        })
+      }
+    })
+  }
 
   return (
     <Fragment>
@@ -71,26 +160,24 @@ export default function RestaurantDetail(props) {
       >
         {isConfirmed && (
           <Modal
-            totalPrice={selectedMenu.reduce(
-              (acc, item) => acc + item.price,
-              0
-            )}
+            totalPrice={calculateTotalPrice()}
             setIsConfirmed={setIsConfirmed}
+            onClickPay={pay}
           >
-            <ItemMenus selectedMenu={selectedMenu} />
+            <ItemMenus selectedMenu={goFood} restaurant={restaurant} />
           </Modal>
         )}
 
         <ConfirmButton
-          itemsLength={selectedMenu.length}
+          itemsLength={goFood.length}
           setIsConfirmed={setIsConfirmed}
           title={'Please begin by selecting one of our menu options.'}
         />
         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 pb-8 mx-5 lg:mx-10'>
           <RestaurantMenus
-            setSelectedMenu={setSelectedMenu}
-            selectedMenu={selectedMenu}
-            restaurantMenus={props.restaurant.menus}
+            setSelectedMenu={setGoFood}
+            selectedMenu={goFood}
+            restaurant={props.restaurant}
           />
         </div>
       </Layout>
