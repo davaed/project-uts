@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-import Layout from '../components/common/Layout'
+import Layout from '../components/common/Layout.component'
 import { Fragment } from 'react'
 
 export default function Home() {
@@ -12,20 +12,13 @@ export default function Home() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <Layout
-        page={'NOT GOJEK'}
-        description={
-          'You can drive wherever you want, whenever you want, and eat anything you want without leaving your house!'
-        }
-      >
-        <div className='flex justify-center m-16'>
-          <img
-            src='/this-is-cat.png'
-            className='cursor-pointer'
-            onClick={(e) => e.target.classList.toggle('invert')}
-          ></img>
-        </div>
-      </Layout>
+      <div className='h-full grid place-items-center'>
+        <img
+          src='/this-is-cat.png'
+          className='cursor-pointer'
+          onClick={(e) => e.target.classList.toggle('invert')}
+        ></img>
+      </div>
     </Fragment>
   )
 }

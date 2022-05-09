@@ -85,7 +85,7 @@ function Row(props) {
                       <TableCell align='left'>{historyRow.price}</TableCell>
                       <TableCell align='center'>
                         <span
-                          className={`px-2 py-0.5 rounded-md text-white ${
+                          className={`px-2 py-0.5 rounded text-white ${
                             historyRow.status === 'pending'
                               ? 'bg-yellow-500'
                               : historyRow.status === 'paid'

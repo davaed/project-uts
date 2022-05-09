@@ -6,10 +6,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'lime': '#d4e157',
-        'jasmine': '#ffe082',
-        'rose': '#ef5350',
-        'silver': '#cfd8dc',
+        'box-lime': '#d4e157',
+        'box-jasmine': '#ffe082',
+        'box-rose': '#ef5350',
+        'box-silver': '#cfd8dc',
       },
       fontFamily: {
         jakarta: ['Jakarta Sans'],
@@ -18,6 +18,8 @@ module.exports = {
         fullscreen: 'calc(100vh - 3rem)', // for the left content
         box: 'calc(100vh - 2.75rem)',
         content: 'calc(100vh - 2rem)',
+
+        'section-left': 'calc(100vh - 4rem)',
       },
     },
   },

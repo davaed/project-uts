@@ -1,53 +1,56 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect, useContext } from 'react'
 import Head from 'next/head'
-import dynamic from 'next/dynamic'
 
-import Layout from '../../components/common/Layout'
-import Modal from '../../components/Modal'
-import ConfirmButton from '../../components/common/ConfirmButton'
+import { GlobalContext as GoRideContext } from '../../context/goRideProvider'
 
-const DynamicMapComponent = dynamic(() => import('../../components/Map'), {
-  ssr: false,
-})
+import WrapperContent from '../../components/go-ride/WrapperContent.component'
+import Loading from '../../components/common/Loading.component'
+import ConfirmBoxWrapper from '../../components/common/ConfirmBox.component'
+import ModalBox from '../../components/common/ModalBox.component'
 
-function ItemMenus({ selectedCoordinates, setListCoordinates }) {
-  function removeSelectedCoordinates(index) {
-    setListCoordinates(
-      selectedCoordinates.filter((_, point) => point !== index)
-    )
+import {
+  fetchNearestLocation,
+  getAddressFromLocation,
+} from '../../utils/getLocation'
+
+function NotGoRideApp({ APIKEY }) {
+  const [goRide, setGoRide] = useContext(GoRideContext)
+  // this temporary coordinate for storing user destination, because the `react-leaflet`
+  // library will always re-render the map component, and the coordinates will be reset to null
+  const [temporaryCoordinates, setTemporaryCoordinates] = useState({
+    pickUpPoint: { lat: 0, lng: 0, address: '', updated: false },
+    destination: { lat: 0, lng: 0, address: '', updated: false },
+    price: 0,
+    status: 'pending',
+  })
+  const [loadingStatus, setLoadingStatus] = useState(true)
+
+  async function updateVisitorCoordinates(position) {
+    await fetchNearestLocation(
+      APIKEY,
+      position.coords.latitude,
+      position.coords.longitude
+    ).then((res) => {
+      const adddress = getAddressFromLocation(res)
+
+      setTemporaryCoordinates({
+        ...temporaryCoordinates,
+        pickUpPoint: {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+          address: adddress,
+          updated: true,
+        },
+      })
+      setLoadingStatus(false)
+    })
   }
 
-  return selectedCoordinates.map((item, index) => (
-    <div
-      className='grid grid-cols-1 sm:grid-cols-2 cursor-pointer border border-[#eaeaea] rounded-md hover:border-[crimson] hover:text-[crimson] p-2 px-3 m-4'
-      key={index}
-      onClick={() => removeSelectedCoordinates(index)}
-    >
-      <div className='col-span-1 flex flex-col justify-start'>
-        <p>
-          <span className='font-semibold'>From:</span> Your Home
-        </p>
-        <p className='font-semibold'>Destination:</p>
-        <p className='space-x-1'>
-          <span>{item.destination.address}</span>
-          <span className='italic'>Street/Place</span>
-        </p>
-      </div>
-      <div className='col-span-1 flex justify-end font-semibold sm:font-normal mt-3 sm:mt-0'>
-        Rp. {item.price}
-      </div>
-    </div>
-  ))
-}
-
-export default function GoRide(props) {
-  const [isConfirmed, setIsConfirmed] = useState(false)
-  const [coordinates, setCoordinates] = useState({
-    pickUpPoint: { lat: 0, lng: 0, updated: false, address: '' },
-    destination: { lat: 0, lng: 0, updated: false, address: '' },
-    price: 0,
-  })
-  const [listCoordinates, setListCoordinates] = useState([])
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      updateVisitorCoordinates(position)
+    })
+  }, [])
 
   return (
     <Fragment>
@@ -57,42 +60,25 @@ export default function GoRide(props) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <Layout
-        page={'go food application'}
-        description={
-          "Without a driver's license, you can drive wherever you want and travel wherever you want."
-        }
-      >
-        {isConfirmed && (
-          <Modal
-            totalPrice={listCoordinates.reduce(
-              (acc, item) => acc + item.price,
-              0
-            )}
-            setIsConfirmed={setIsConfirmed}
-          >
-            <ItemMenus
-              selectedCoordinates={listCoordinates}
-              setListCoordinates={setListCoordinates}
-            />
-          </Modal>
-        )}
-
-        <ConfirmButton
-          itemsLength={listCoordinates.length}
-          setIsConfirmed={setIsConfirmed}
-          title={'Please begin by selecting your destination.'}
+      {!loadingStatus ? (
+        <WrapperContent
+          geoMapApiKey={APIKEY}
+          temporary={{
+            coordinates: temporaryCoordinates,
+            setCoordinates: setTemporaryCoordinates,
+          }}
+          goRideData={goRide}
+          updateGoRideData={setGoRide}
         />
-        <div className='mb-4 mx-5 lg:mx-10'>
-          <DynamicMapComponent
-            APIKEY={props.APIKEY}
-            coordinates={coordinates}
-            setCoordinates={setCoordinates}
-            listCoordinates={listCoordinates}
-            setListCoordinates={setListCoordinates}
-          />
-        </div>
-      </Layout>
+      ) : (
+        <Fragment>
+          <Loading>
+            <div className='font-medium text-2xl text-[#00a770]'>
+              Searching for your location
+            </div>
+          </Loading>
+        </Fragment>
+      )}
     </Fragment>
   )
 }
@@ -104,3 +90,5 @@ export function getStaticProps() {
     },
   }
 }
+
+export default NotGoRideApp

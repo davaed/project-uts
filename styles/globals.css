@@ -10,6 +10,11 @@ body {
   /* background-color: #F8F5F2; */
 }
 
+/* .stroke {
+  -webkit-text-stroke: 1px #814674;
+  text-stroke: 1px #814674;
+} */
+
 a {
   color: inherit;
   text-decoration: none;
