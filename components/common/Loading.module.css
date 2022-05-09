@@ -6,7 +6,7 @@
 
 .rippleLoader div {
   position: absolute;
-  border: 4px solid #00a770;
+  border: 4px solid #d4e157;
   border-radius: 50%;
   animation: ripple-loader 1s ease-out infinite;
 }

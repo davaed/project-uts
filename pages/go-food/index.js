@@ -1,33 +1,11 @@
 import { Fragment } from 'react'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 
 import { MongoClient } from 'mongodb'
 
-import Layout from '../../components/common/Layout'
+import RestaurantList from '../../components/go-food/RestaurantContent.component'
 
-function Restaurant({ restaurants }) {
-  const router = useRouter()
-
-  function redirect(restaurant) {
-    router.push(`/go-food/${restaurant}`)
-  }
-
-  return restaurants.map((item, index) => (
-    <div
-      className='cursor-pointer rounded-md border border-[#eaeaea] hover:border-[#0070f3] hover:text-[#0070f3] transition ease-in-out duration-200 p-4'
-      key={`${index}`}
-      onClick={() => redirect(item.name)}
-    >
-      <h2 className='capitalize font-semibold text-xl'>
-        {item.name} Restaurant
-      </h2>
-      <small>{item.menus} menus in total</small>
-    </div>
-  ))
-}
-
-export default function GoFood(props) {
+function NotGoFoodApp({ restaurants }) {
   return (
     <Fragment>
       <Head>
@@ -36,16 +14,7 @@ export default function GoFood(props) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <Layout
-        page={'go food application'}
-        description={
-          'You may get the greatest deal on food by purchasing it from our fictitious restaurant list below! '
-        }
-      >
-        <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 pb-8 md:pb-0 mx-5 lg:mx-10'>
-          <Restaurant restaurants={props.restaurants} />
-        </div>
-      </Layout>
+      <RestaurantList restaurantList={restaurants} />
     </Fragment>
   )
 }
@@ -54,19 +23,23 @@ export async function getStaticProps() {
   const client = await MongoClient.connect(
     `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@cluster0.ec2ky.mongodb.net/${process.env.MONGODB_DATABASE}?retryWrites=true&w=majority`
   )
-  const db = client.db()
-  const collections = db.collection('go-food')
+  const database = client.db()
+  const collections = database.collection('go-food')
   const restaurants = await collections.find().toArray()
   client.close()
 
+  const response = restaurants.map((res) => ({
+    id: res._id.toString(),
+    name: res.name,
+    menus: res.menus.length,
+  }))
+
   return {
     props: {
-      restaurants: restaurants.map((restaurant) => ({
-        id: restaurant._id.toString(),
-        name: restaurant.name,
-        menus: restaurant.menus.length,
-      })),
+      restaurants: response,
     },
     revalidate: 1,
   }
 }
+
+export default NotGoFoodApp
