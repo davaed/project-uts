@@ -21,7 +21,7 @@ function Button({ isDataEmpty, helperText, setConfirmChoice }) {
 
 function ConfirmBoxWrapper({ isDataEmpty, setConfirmChoice, helperText }) {
   return (
-    <div className='sticky top-[81px] md:top-0 bg-white border-b border-[#d6d6d6] py-4 px-5 lg:px-10 mb-8'>
+    <div className='sticky top-[77px] md:top-0 bg-white border-b border-[#d6d6d6] py-4 px-5 lg:px-10 mb-8'>
       <div className='relative flex justify-end'>
         <Button
           isDataEmpty={isDataEmpty}

@@ -127,6 +127,10 @@ a {
   color: crimson !important;
 }
 
+.table-no-shadow > div > table {
+  min-width: 0 !important;
+}
+
 .table-no-shadow > div {
   box-shadow: none !important;
   /* border: none !important; */

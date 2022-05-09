@@ -5,8 +5,6 @@ import { GlobalContext as GoRideContext } from '../../context/goRideProvider'
 
 import WrapperContent from '../../components/go-ride/WrapperContent.component'
 import Loading from '../../components/common/Loading.component'
-import ConfirmBoxWrapper from '../../components/common/ConfirmBox.component'
-import ModalBox from '../../components/common/ModalBox.component'
 
 import {
   fetchNearestLocation,
@@ -73,7 +71,7 @@ function NotGoRideApp({ APIKEY }) {
       ) : (
         <Fragment>
           <Loading>
-            <div className='font-medium text-2xl text-[#00a770]'>
+            <div className='font-medium text-2xl text-[#d4e157]'>
               Searching for your location
             </div>
           </Loading>

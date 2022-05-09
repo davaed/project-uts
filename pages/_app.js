@@ -16,7 +16,6 @@ export default function NotGojekApp({ Component, pageProps }) {
   const router = useRouter()
 
   const [activeSession, setActiveSession] = useState(router.pathname)
-
   const routerList = [
     { path: 'go-ride', icon: 'maps', background: 'bg-box-lime' },
     { path: 'go-food', icon: 'food', background: 'bg-box-jasmine' },
@@ -33,8 +32,8 @@ export default function NotGojekApp({ Component, pageProps }) {
 
   return (
     <main
-      className={`h-screen divide-x grid ${
-        activeSession ? 'grid-cols-5' : 'grid-cols-2'
+      className={`h-screen divide-x grid grid-cols-1 ${
+        activeSession ? 'xl:grid-cols-5' : 'xl:grid-cols-2'
       }`}
     >
       <SectionLeftComponent

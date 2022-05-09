@@ -16,10 +16,12 @@ module.exports = {
       },
       height: {
         fullscreen: 'calc(100vh - 3rem)', // for the left content
-        box: 'calc(100vh - 2.75rem)',
-        content: 'calc(100vh - 2rem)',
 
+        'hidden-menu': 'calc(100vh - 1.25rem)',
         'section-left': 'calc(100vh - 4rem)',
+      },
+      screens: {
+        phone: '480px',
       },
     },
   },

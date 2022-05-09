@@ -37,7 +37,7 @@ function MapWrapperContent({
 
   return (
     <ContextLayout
-      page={'go food application'}
+      page={'go ride application'}
       description={`Without a driver's license, you can drive wherever you want and travel wherever you want.`}
     >
       {confirmChoice && (

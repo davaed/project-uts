@@ -51,8 +51,15 @@ function OpenedComponentTable({ openedTab, goFoodData, goRideData }) {
     <div className='mx-5 lg:mx-10'>
       {openedTab === 'go-food' ? (
         <GoFoodTable restaurants={goFoodData} />
+      ) : openedTab === 'go-ride' ? (
+        <GoRideTable orders={goRideData} />
       ) : (
-        openedTab === 'go-ride' && <GoRideTable orders={goRideData} />
+        <div className='flex justify-center'>
+          <img
+            src='/images/nothing-to-see-here.svg'
+            className='w-full sm:w-1/2 h-auto'
+          />
+        </div>
       )}
     </div>
   )
@@ -79,10 +86,9 @@ export default function OrderHistory() {
 
       <ContextLayout page={'order history'}>
         <div className='my-8'>
-          {/* <h1 className='uppercase font-semibold text-3xl lg:text-5xl mx-5 lg:mx-10'>
-            your order history
-          </h1> */}
-          <SectionButton openedTab={openedTab} setOpenedTab={setOpenedTab} />
+          {openedTab && (
+            <SectionButton openedTab={openedTab} setOpenedTab={setOpenedTab} />
+          )}
           <OpenedComponentTable
             openedTab={openedTab}
             goFoodData={goFood}
