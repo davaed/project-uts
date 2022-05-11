@@ -9,6 +9,7 @@ import { GlobalContext as GoRideContext } from '../../context/goRideProvider'
 import ContextLayout from '../../components/common/Layout.component'
 import GoFoodTable from '../../components/go-food/TableGoFood.component'
 import GoRideTable from '../../components/go-ride/TableGoRide.component'
+import Loading from '../../components/common/Loading.component'
 
 function SectionButton({ openedTab, setOpenedTab }) {
   const router = useRouter()
@@ -69,11 +70,13 @@ export default function OrderHistory() {
   const [goFood, setGoFood] = useContext(GoFoodContext)
   const [goRide, setGoRide] = useContext(GoRideContext)
   const [openedTab, setOpenedTab] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     ;-setOpenedTab(
       goFood.length > 0 ? 'go-food' : goRide.length > 0 ? 'go-ride' : null
     )
+    setLoading(false)
   }, [])
 
   return (
@@ -89,11 +92,17 @@ export default function OrderHistory() {
           {openedTab && (
             <SectionButton openedTab={openedTab} setOpenedTab={setOpenedTab} />
           )}
-          <OpenedComponentTable
-            openedTab={openedTab}
-            goFoodData={goFood}
-            goRideData={goRide}
-          />
+          {!loading ? (
+            <OpenedComponentTable
+              openedTab={openedTab}
+              goFoodData={goFood}
+              goRideData={goRide}
+            />
+          ) : (
+            <div className='my-8'>
+              <Loading />
+            </div>
+          )}
         </div>
       </ContextLayout>
     </Fragment>

@@ -14,13 +14,16 @@ import Paper from '@mui/material/Paper'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 
-function createData(restaurants) {
+import { GlobalContext } from '../../context/globalProvider'
+
+function createData(restaurants, address) {
   const result = []
 
   restaurants.forEach((item) => {
     result.push({
       restaurant: item.restaurant,
       quantity: item.menus.length,
+      address: address,
       totalPrice: item.menus.reduce((acc, cur) => acc + cur.price, 0),
       history: item.menus.map((menu) => ({
         date: new Date().toISOString().split('T')[0],
@@ -54,8 +57,9 @@ function Row(props) {
         <TableCell component='th' scope='row'>
           {row.restaurant}
         </TableCell>
-        <TableCell align='left'>{row.quantity}</TableCell>
-        <TableCell align='left'>{row.totalPrice}</TableCell>
+        <TableCell align='center'>{row.quantity}</TableCell>
+        <TableCell align='left'>{row.address}</TableCell>
+        <TableCell align='center'>{row.totalPrice}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -68,9 +72,9 @@ function Row(props) {
                 <TableHead>
                   <TableRow>
                     <TableCell>Date</TableCell>
-                    <TableCell>Quantity</TableCell>
-                    <TableCell align='left'>Menu Name</TableCell>
-                    <TableCell align='left'>Price</TableCell>
+                    <TableCell align='center'>Quantity</TableCell>
+                    <TableCell align='center'>Menu Name</TableCell>
+                    <TableCell align='center'>Price</TableCell>
                     <TableCell align='center'>Status</TableCell>
                   </TableRow>
                 </TableHead>
@@ -80,9 +84,11 @@ function Row(props) {
                       <TableCell component='th' scope='row'>
                         {historyRow.date}
                       </TableCell>
-                      <TableCell>{historyRow.menuQuantity}</TableCell>
-                      <TableCell align='left'>{historyRow.name}</TableCell>
-                      <TableCell align='left'>{historyRow.price}</TableCell>
+                      <TableCell align='center'>
+                        {historyRow.menuQuantity}
+                      </TableCell>
+                      <TableCell align='center'>{historyRow.name}</TableCell>
+                      <TableCell align='center'>{historyRow.price}</TableCell>
                       <TableCell align='center'>
                         <span
                           className={`px-2 py-0.5 rounded text-white ${
@@ -126,7 +132,9 @@ Row.propTypes = {
 }
 
 export default function CollapsibleTable({ restaurants }) {
-  const [rows] = React.useState(() => createData(restaurants))
+  const [globalLocation, setGlobalLocation] = React.useContext(GlobalContext)
+
+  const [rows] = React.useState(() => createData(restaurants, globalLocation))
 
   return (
     <div className='table-no-shadow'>
@@ -137,6 +145,7 @@ export default function CollapsibleTable({ restaurants }) {
               <TableCell />
               <TableCell>Restaurant</TableCell>
               <TableCell align='left'>Order Quantity</TableCell>
+              <TableCell align='left'>Address</TableCell>
               <TableCell align='left'>Total Price</TableCell>
             </TableRow>
           </TableHead>
