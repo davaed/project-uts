@@ -7,6 +7,8 @@ import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import TableContainer from '@mui/material/TableContainer'
 
+import { convertToRupiah } from '../../utils/convertToRupiah'
+
 function createData(orders) {
   const result = []
 
@@ -14,7 +16,7 @@ function createData(orders) {
     result.push({
       pickUpPoint: item.pickUpPoint.address,
       destination: item.destination.address,
-      price: item.price,
+      price: convertToRupiah(item.price),
       status: item.status,
     })
   })

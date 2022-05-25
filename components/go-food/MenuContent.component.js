@@ -41,17 +41,21 @@ function MenuContent({ restaurant }) {
     return totalPrice > 0 ? totalPrice : '-'
   }
 
-  function getMenuCountByRestaurantName() {
-    goFood.forEach((item) => {
-      if (item.restaurant === restaurant.name) {
-        if (item.menus?.length > 0) setMenuLength(true)
-        return
-      }
-    })
-  }
-
   useEffect(() => {
-    getMenuCountByRestaurantName()
+    const currentData = goFood
+
+    if (currentData.length > 0) {
+      currentData.forEach((item) => {
+        console.log(item.restaurant, restaurant.name)
+        if (item.restaurant === restaurant.name) {
+          setMenuLength(item.menus.length > 0)
+        } else {
+          setMenuLength(false)
+        }
+      })
+    } else {
+      setMenuLength(false)
+    }
   }, [goFood])
 
   return (

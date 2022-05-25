@@ -40,6 +40,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
   const param = context.params.restaurant
+  console.log(param)
 
   const client = await MongoClient.connect(
     `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@cluster0.ec2ky.mongodb.net/${process.env.MONGODB_DATABASE}?retryWrites=true&w=majority`

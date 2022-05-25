@@ -13,6 +13,7 @@ module.exports = {
       },
       fontFamily: {
         jakarta: ['Jakarta Sans'],
+        satoshi: ['Satoshi']
       },
       height: {
         fullscreen: 'calc(100vh - 3rem)', // for the left content
