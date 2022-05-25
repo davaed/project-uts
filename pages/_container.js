@@ -53,12 +53,18 @@ export default function Container({ Component, pageProps }) {
   useEffect(() => {
     if (!allowAccess) return
 
-    navigator.geolocation.getCurrentPosition((position) => {
-      updateStateLocation(position.coords.latitude, position.coords.longitude)
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        updateStateLocation(position.coords.latitude, position.coords.longitude)
 
-      setAllowAccess(true)
-      localStorage.setItem('allowAccess', true)
-    })
+        setAllowAccess(true)
+        localStorage.setItem('allowAccess', true)
+      },
+      (err) => {
+        console.error(err)
+      },
+      { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+    )
   }, [allowAccess])
 
   useEffect(() => {

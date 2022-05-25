@@ -7,13 +7,7 @@ body {
   font-family: 'Satoshi', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* background-color: #F8F5F2; */
 }
-
-/* .stroke {
-  -webkit-text-stroke: 1px #814674;
-  text-stroke: 1px #814674;
-} */
 
 a {
   color: inherit;

@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useEffect, useContext } from 'react'
 
 import { GlobalContext as GoFoodContext } from '../../context/goFoodProvider'
 
@@ -9,6 +9,7 @@ import ModalBox from '../common/ModalBox.component'
 import MenuModalItems from './MenuModalItems.component'
 
 function MenuContent({ restaurant }) {
+  const [menuLength, setMenuLength] = useState(false)
   const [goFood, setGoFood] = useContext(GoFoodContext)
   const [confirmChoice, setConfirmChoice] = useState(false)
 
@@ -40,6 +41,19 @@ function MenuContent({ restaurant }) {
     return totalPrice > 0 ? totalPrice : '-'
   }
 
+  function getMenuCountByRestaurantName() {
+    goFood.forEach((item) => {
+      if (item.restaurant === restaurant.name) {
+        if (item.menus?.length > 0) setMenuLength(true)
+        return
+      }
+    })
+  }
+
+  useEffect(() => {
+    getMenuCountByRestaurantName()
+  }, [goFood])
+
   return (
     <ContextLayout
       page={`${restaurant.name} Restaurant`}
@@ -56,7 +70,7 @@ function MenuContent({ restaurant }) {
       )}
 
       <ConfirmBoxWrapper
-        isDataEmpty={goFood.length > 0 ? true : false}
+        isDataEmpty={menuLength}
         setConfirmChoice={setConfirmChoice}
         helperText={'Please begin by selecting one of our restaurant menu.'}
       />

@@ -4,7 +4,7 @@ function ModalNotificationAllow(props) {
       <div className='h-full flex flex-col justify-center items-center mx-5 sm:mx-0'>
         <div className='h-auto w-full sm:w-1/3 overflow-y-auto bg-white rounded space-y-12 p-6'>
           <div className='flex flex-col justify-start text-lg'>
-            <p>
+            <p className="font-satoshi">
               You need to allow the browser to access your location to use any
               of the features. Please click the button below to allow the
               browser to access your location. We will not use your location for
