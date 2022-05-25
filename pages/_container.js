@@ -33,6 +33,7 @@ export default function Container({ Component, pageProps }) {
     { path: 'history', icon: 'pays', background: 'bg-box-rose' },
     { path: 'easteregg', icon: 'qmark', background: 'bg-box-silver' },
   ]
+
   async function updateStateLocation(lat, lng) {
     const _apikey = decrypter(apikey)
     await fetchNearestLocation(_apikey, lat, lng).then((res) => {
@@ -53,7 +54,6 @@ export default function Container({ Component, pageProps }) {
     if (!allowAccess) return
 
     navigator.geolocation.getCurrentPosition((position) => {
-      console.log(position)
       updateStateLocation(position.coords.latitude, position.coords.longitude)
 
       setAllowAccess(true)
