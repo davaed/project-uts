@@ -15,6 +15,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 
 import { GlobalContext } from '../../context/globalProvider'
+import { convertToRupiah } from '../../utils/convertToRupiah'
 
 function createData(restaurants, address) {
   const result = []
@@ -24,12 +25,12 @@ function createData(restaurants, address) {
       restaurant: item.restaurant,
       quantity: item.menus.length,
       address: address,
-      totalPrice: item.menus.reduce((acc, cur) => acc + cur.price, 0),
+      totalPrice: convertToRupiah(item.menus.reduce((acc, cur) => acc + cur.price, 0)),
       history: item.menus.map((menu) => ({
         date: new Date().toISOString().split('T')[0],
         menuQuantity: 1,
         name: menu.name,
-        price: menu.price,
+        price: convertToRupiah(menu.price),
         status: menu.status,
       })),
     })
