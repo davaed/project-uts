@@ -5,6 +5,7 @@ function Button({ isDataEmpty, helperText, setConfirmChoice }) {
     hovering: 'hover:border-[#00a770] hover:text-[#ffffff] hover:bg-[#00a770]',
     disable: 'cursor-not-allowed',
   }
+
   return isDataEmpty ? (
     <button
       className={`${style.default} ${style.hovering}`}

@@ -26,7 +26,7 @@ function MapWrapperContent({
   }
 
   function calculateTotalPrice() {
-    // calculate the total price of the selected restaurant, only if the menu status is pending
+    // calculate the total price of the selected locations, only if the status is pending
     let totalPrice = goRideData.reduce((acc, curr) => {
       if (curr.status === 'pending') acc += curr.price
       return acc

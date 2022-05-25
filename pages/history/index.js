@@ -26,7 +26,7 @@ function SectionButton({ openedTab, setOpenedTab }) {
   }, [router])
 
   return (
-    <div className='sticky top-0 flex justify-end border-b border-[#eaeaea] bg-white space-x-8 my-4 py-4 px-5 lg:px-10'>
+    <div className='sticky top-0 z-50 flex justify-end border-b border-[#eaeaea] bg-white space-x-8 my-4 py-4 px-5 lg:px-10'>
       <div
         className={`${openedTab ? styles.button : styles.disabled} ${
           openedTab === 'go-food' && styles.active
