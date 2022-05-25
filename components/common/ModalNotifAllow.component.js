@@ -10,6 +10,7 @@ function ModalNotificationAllow(props) {
               browser to access your location. We will not use your location for
               any other purpose.
             </p>
+            <span className="text-[12px]">Notes : on some devices the location is not very accurate</span>
           </div>
           <div className='flex justify-end space-x-4'>
             <button

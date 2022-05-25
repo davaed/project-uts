@@ -33,7 +33,6 @@ export default function Container({ Component, pageProps }) {
     { path: 'history', icon: 'pays', background: 'bg-box-rose' },
     { path: 'easteregg', icon: 'qmark', background: 'bg-box-silver' },
   ]
-
   async function updateStateLocation(lat, lng) {
     const _apikey = decrypter(apikey)
     await fetchNearestLocation(_apikey, lat, lng).then((res) => {
@@ -53,17 +52,13 @@ export default function Container({ Component, pageProps }) {
   useEffect(() => {
     if (!allowAccess) return
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        updateStateLocation(position.coords.latitude, position.coords.longitude)
+    navigator.geolocation.getCurrentPosition((position) => {
+      console.log(position)
+      updateStateLocation(position.coords.latitude, position.coords.longitude)
 
-        setAllowAccess(true)
-        localStorage.setItem('allowAccess', true)
-      },
-      (err) => {
-        console.error(err)
-      },
-      { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+      setAllowAccess(true)
+      localStorage.setItem('allowAccess', true)
+    }
     )
   }, [allowAccess])
 
